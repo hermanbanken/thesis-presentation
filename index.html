@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="bower_components/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="bower_components/reveal.js/css/theme/white.css">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section data-background-image="images/bg.jpg" id="slide1">
+					<h1 style="margin-top: 20vh">Debugging Data-Flows<br>in Reactive Programs</h1>
+					<h2>Herman Banken</h2>
+					<div class="blue-container flex">
+						<img src="images/tudelft_white.svg" style="max-height: 2em" />
+						<img src="images/codestar.svg" style="max-height: 1em" />
+						<img src="images/rx.svg" style="max-height: 1em" />
+					</div>
+					<aside class="notes">
+						Thanks you all for being here.<br>
+						In the next half hour I will unravel for you how to debug data-flows in Reactive Programs.
+					</aside>
+				</section>
+
+				<section>
+					<div class="flex multicol">
+						<div style="width: 30%">
+							<img src="images/rx.svg" />
+							<div>Reactive Programming</div>
+						</div>
+						<div style="width: 30%">
+							<img src="images/debug.png" />
+							<div>Debugging</div>
+						</div>
+					</div>
+					<aside class="notes">
+						For some of you the title "Debugging Data-Flows in Reactive Programs" might include some unknown words.<br>
+						I will first briefly explain what Reactive Programming is.<br>
+						Second, we will discuss debugging.<br>
+						And how this is different for Reactive Programming.
+					</aside>
+				</section>
+
+				<section>
+					<div class="flex multicol">
+						<div style="width: 30%">
+							<img src="images/screenshot.png" class="h200" />
+							<div><img class="inline" src="images/rx.svg" /> RxFiddle</div>
+						</div>
+						<div style="width: 30%">
+							<img src="images/experiment.gif" class="h200" />
+							<div>Experiment</div>
+						</div>
+					</div>
+					<aside class="notes">
+						Third, we will see the way of debugging for Reactive Programming that I designed, during this thesis. Called RxFiddle.<br> 
+						And finally, we will compare the two methods using an experiment.
+					</aside>
+				</section>
+
+				<section>
+					<h1>Reactive Programming</h1>
+					<aside class="notes">
+						So what is reactive programming?
+						Let's see where we're coming from: imperative programming.
+					</aside>
+				</section>
+
+				<section>
+					<div class="flex multicol">
+						<div style="width: 30%">
+							<img src="images/pancake/ingre.jpeg" class="h200" />
+						</div>
+						<div style="width: 30%">
+							<img src="images/pancake/cook.jpeg" class="h200" />
+						</div>
+						<div style="width: 30%">
+							<img src="images/pancake/result.jpeg" class="h200" />
+						</div>
+					</div>
+					<aside class="notes">
+						Programming once was like baking pancakes. 
+						First we gather the ingredients like milk, flower and eggs. In programming this would be data.
+						Then we would mix the ingredients, then bake the pancake. In programming this is where we do something with the data.
+						What we do is explicitly defined in the recipe: code.
+						Finally we have the result, pancakes; or the program output.
+						But this has changed.
+					</aside>
+				</section>
+
+				<section>
+					<div class="flex multicol">
+						<div style="width: 60%">
+							<img src="images/pancake/factory.gif" style="width: 100%" />
+						</div>
+					</div>
+					<aside class="notes">
+						More than 15 billion devices are connected to the internet.
+						We are all accustomed to push notifications. We expect live updates.
+						We must continuously bake pancakes: process data continuously.
+					</aside>
+				</section>
+
+				<section data-background-image="images/hyundai.jpeg">
+					<aside class="notes">
+						Handling this data often involves many smaller steps. 
+						It is like building cars: materials go in at one end, and cars come out at the other end.
+						In between every worker has his own job, doing the same thing to every car.
+					</aside>
+				</section>
+
+				<section data-state="mario">
+					<h1 style="margin: 0.5em 0 -2em 40%;">Reactive Programming</h1>
+					<div id="mario">
+						<svg class="stretch" viewPort="0 100 500 1000" viewBox="0 100 1000 1000" style="overflow: visible">
+								<rect height="971.999992" width="94.000001" y="-847.5" x="70.5" fill="#00ff7f" class="pipe"></rect>
+								<rect transform="rotate(-45.454383850097656 200.50000000000003,186.49999999999997)" height="271.999992" width="94.000001" y="50.5" x="153.5" fill="#00ff7f" class="pipe"></rect>
+								<rect height="1096.999995" width="94.000001" y="-731.5" x="237.5" fill="#00ff7f" class="pipe"></rect>
+								<rect height="1096.999995" width="94.000001" y="542.916809" x="237.5" fill="#00ff7f" class="pipe"></rect>
+								<rect height="13" width="109.000005" y="14.5" x="229.5" fill="#21b769" class="pipebar"></rect>
+								<rect height="13" width="109.000005" y="122.504631" x="229.5" fill="#21b769" class="pipebar"></rect>
+								<rect height="13" width="109.000005" y="294.544647" x="229.5" fill="#21b769" class="pipebar"></rect>
+								<rect height="13" width="109.000005" y="356.513153" x="229.5" fill="#21b769" class="pipebar"></rect>
+								<rect height="13" width="109.000005" y="541.513153" x="229.5" fill="#21b769" class="pipebar"></rect>
+								<rect height="13" width="109.000005" y="701.513153" x="229.5" fill="#21b769" class="pipebar"></rect>
+								<rect transform="rotate(-45 143,130) " height="13" width="109.000005" y="123.5" x="88.5" fill="#21b769" class="pipebar"></rect>
+								<rect height="13" width="109.000005" y="14.5" x="63.424713" fill="#21b769" class="pipebar"></rect>
+							  <image href="images/shell.png" x="78" y="-100" height="60px" width="70px" style="opacity:0"> 
+									<animate id="op1" attributeType="CSS" attributeName="opacity" from="0" to="1" dur="0.4s" begin="" fill="freeze" />
+				          <animateMotion id="shell1" path="m 0 0 v 180 l 170 170 v 235" dur="2s" begin="op1.end" fill="freeze" />
+				          <animateMotion path="m 170 585 v 545" dur="1s" begin="mario1.end-0.2s" fill="freeze" />
+								</image>
+								<image href="images/mario.png" x="245" y="-100" height="100px" width="80px" style="opacity:0">
+				          <!-- regular -->
+									<animate id="op2" attributeType="CSS" attributeName="opacity" from="0" to="1" dur="0.4s" begin="shell1.end" fill="freeze" />
+				          <animateMotion id="mario1" path="m 0 0 v 545" dur="2s" begin="op2.end" fill="freeze" />
+									<!-- reset -->
+									<animateMotion path="m 0 545 v 500" dur="1s" begin="op1.begin" fill="freeze" />
+				          <animate attributeType="CSS" attributeName="opacity" from="1" to="0" dur="0.1s" begin="op1.begin+1s" fill="freeze" />
+								</image>
+						</svg>
+					</div>
+					<label class="fragment fade-in" for="mario">
+						<span><!-- Left empty on purpose --></span>
+					</label>
+					<aside class="notes">
+						Reactive Programming is like specifying the design of these car factories.
+						We have many streams of input data from sources outside of our control.
+						We then combine these streams. Transform the streams. Do stuff with the data inside.
+						And then we output the data again.
+						CLICK FOR MARIO.
+					</aside>
+				</section>
+
+				<section>
+					<h1><img class="inline" src="images/rx.svg" /> Rx</h1>
+					<ul>
+						<li class="fragment fade-in">Reactive Programming <i>library</i></li>
+						<li class="fragment fade-in">API for streams</li>
+						<li class="fragment fade-in">142 different operators</li>
+					</ul>
+					<aside class="notes">
+						As a programmer you can use Reactive Programming in different ways.
+						You can use a Reactive language, but you can also use a library.
+						Rx is such a library. You can use Rx with most programming languages, and combine Reactive and Imperative programming.
+						Rx is an API for reactively handling streams of data.
+						Imagine the different ways that you can modify a stream of data.
+						Rx has 142 operators, all with different functions.
+						To modify the values in the stream, their timing to delay values. 
+						To combine streams. To interleave streams. 
+						And many more.
+					</aside>
+				</section>
+
+				<section>
+					<div class="flex multicol">
+						<div style="width: 50%">
+							<pre><code data-trim data-noescape>
+inputStream
+  .map(x => 10 * x)
+  .filter(_ > 100)
+  .scan(_ + _)
+  .subscribe(render)
+	</code></pre>
+						</div>
+						<div style="width: 50%">
+							<pre class="fragment fade-in"><code data-trim data-noescape>
+marioStream
+  .filter(_.level > 4)
+  .throttle(100ms)
+  .merge(shellStream)
+  .scan(battle)
+  .subscribe(render)
+	</code></pre>
+						</div>
+					</div>
+					<div class="fragment fade-in" style="background: gray; margin: 0 -200px 0; padding: 0 200px">
+						<img src="images/marble.1.png" />
+					</div>
+					<aside class="notes">
+						This is an example of some Rx code.
+						1 inputStream.
+						3 operators. 1 subscribe.<br>
+						Here is another example; that could be taken from a mario game.
+						To new users of Rx it is sometimes useful to show the Marble Diagram.
+						This diagram shows the input stream above, then one operator, and then the output stream.
+						You can draw such diagram for each operator in the code above.
+					</aside>
+				</section>
+			</div>
+		</div>
+		<!--<div class="bar">
+			<img src="images/tudelft_white.svg" style="max-height: 2em" />
+			<img src="images/codestar.svg" style="max-height: 1em" />
+			<img src="images/rx.svg" style="max-height: 1em" />
+			<div class="space"></div>
+			<span>Herman Banken</span>
+		</div>-->
+		<script src="bower_components/reveal.js/lib/js/head.min.js"></script>
+		<script src="bower_components/reveal.js/js/reveal.js"></script>
+		<script>
+			let prefix = "bower_components/reveal.js/"
+			Reveal.initialize({
+				// Display the page number of the current slide
+				slideNumber: true,
+				embedded: true,
+				history: true,
+				dependencies: [
+					// Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+					{ src: prefix+'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+
+					// Interpret Markdown in <section> elements
+					{ src: prefix+'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: prefix+'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+
+					// Syntax highlight for <code> elements
+					{ src: prefix+'plugin/highlight/highlight.js', async: false, callback: function() { hljs.initHighlightingOnLoad(); } },
+
+					// Zoom in and out with Alt+click
+					{ src: prefix+'plugin/zoom-js/zoom.js', async: true },
+
+					// Speaker notes
+					{ src: prefix+'plugin/notes/notes.js', async: true },
+
+					// MathJax
+					{ src: prefix+'plugin/math/math.js', async: true },
+
+					// Jump
+					{ src: 'lib/jump.js', async: true }
+				]
+			});
+		</script>
+		<script>
+			let runMario = () => document.getElementById("op1").beginElement()
+			// Reveal.addEventListener("mario", runMario, false)
+			Reveal.addEventListener("fragmentshown", (e) => e.fragment.getAttribute("for") === "mario" ? runMario() : void(0))
+			document.querySelector("#mario svg").addEventListener("click", runMario, false)
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,100 @@
+#slide1 h1, .bar, .reveal .slides section .bar {
+	font-family: "Helvetica";
+	font-weight: 100;
+}
+
+.bar, .reveal .slides h1 {
+	font-family: "Helvetica";
+	font-weight: 100;
+	text-transform: none;
+	font-size: 1.9em;
+}
+.bar, .reveal .slides h2 {
+	font-family: "Helvetica";
+	font-weight: 100;
+	text-transform: none;
+	font-size: 1.3em;
+}
+
+#slide1 h1 { color: white; text-align: right; }
+#slide1 h2 { color: rgba(255,255,255,0.8); text-align: right; }
+
+.reveal section img {
+    margin: auto;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
+.reveal section img.inline { height: 1.2em; vertical-align: middle; }
+.reveal section img.h200 { height: 200px; }
+
+.flex { display: flex; }
+.flex > * { flex-basis: 1; flex-grow: 1; flex-shrink: 0; }
+.multicol { justify-content: center; justify-content: space-around; align-items: flex-start; }
+.multicol > * { flex-grow: 0; }
+.flex-right { display: flex; }
+.flex-right > * { flex-grow: 0; }
+
+svg .pipe {	fill: #29AF1D; stroke-width: 0; }
+svg .pipebar {	fill: #219417; stroke-width: 0; }
+
+.reveal section div.blue-container {
+	margin: 0 -25px;
+	background-color: #00A6D6;
+}
+
+.bar, .reveal .slides section .bar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	font-size: 42px;
+	font-weight: 100;
+	background-color: #1CA4FC;
+	color: white;
+	height: 132px;
+	line-height: 132px;
+	padding: 0 30px;
+}
+
+.bar * {
+	margin: auto;
+	flex: 1;
+	flex-grow: 0.2;
+	white-space: nowrap;
+}
+.bar .space { flex-grow: 0.4; }
+.reveal section .bar img { border: none; box-shadow: none; background: none; margin: auto; }
+
+/*********************************************
+ * NAVIGATION CONTROLS
+ *********************************************/
+.reveal .controls .navigate-left,
+.reveal .controls .navigate-left.enabled {
+  border-right-color: rgba(255,255,255,1); }
+
+.reveal .controls .navigate-right,
+.reveal .controls .navigate-right.enabled {
+  border-left-color: rgba(255,255,255,1); }
+
+.reveal .controls .navigate-up,
+.reveal .controls .navigate-up.enabled {
+  border-bottom-color: rgba(255,255,255,1); }
+
+.reveal .controls .navigate-down,
+.reveal .controls .navigate-down.enabled {
+  border-top-color: rgba(255,255,255,1); }
+
+.reveal .controls .navigate-left.enabled:hover {
+  border-right-color: rgba(255,255,255,.8); }
+
+.reveal .controls .navigate-right.enabled:hover {
+  border-left-color: rgba(255,255,255,.8); }
+
+.reveal .controls .navigate-up.enabled:hover {
+  border-bottom-color: rgba(255,255,255,.8); }
+
+.reveal .controls .navigate-down.enabled:hover {
+  border-top-color: rgba(255,255,255,.8); }
