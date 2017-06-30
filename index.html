@@ -195,7 +195,7 @@ marioStream
 	</code></pre>
 						</div>
 					</div>
-					<div class="fragment fade-in" style="background: gray; margin: 0 -200px 0; padding: 0 200px">
+					<div class="fragment fade-in" style="background: gray; margin: 0 -15vw 0; padding: 0 15vw">
 						<img src="images/marble.1.png" />
 					</div>
 					<aside class="notes">
@@ -208,15 +208,346 @@ marioStream
 						You can draw such diagram for each operator in the code above.
 					</aside>
 				</section>
+
+				<section>
+					<img src="images/debug.png" style="width: 100px" />
+					<h1>De∙bug </h1>
+					<ul>
+						<li class="fragment fade-in">Finding mistakes</li>
+						<li class="fragment fade-in">Understanding code</li>
+					</ul>
+					<aside class="notes">
+						Now that we have some idea of what Reactive Programming is, lets talk about debugging.
+						Debugging literally means removing bugs, like insects, from old computer punch cards.
+						In modern times bugs are just mistakes made by the programmer.
+					</aside>
+				</section>
+
+				<section>
+					<div style="background: #A9A9A9; margin: 0 -15vw 0; padding: 0 15vw">
+						<img src="images/marble.2.png" />
+					</div>
+				</section>
+
+				<section>
+					<h1>Debugger tools</h1>
+					<div class="flex multicol">
+						<div style="width: 30%">
+							<p>Features:</p>
+							<ul>
+								<li class="fragment fade-in">Pause execution</li>
+								<li class="fragment fade-in">Stepping</li>
+								<li class="fragment fade-in">Breakpoints</li>
+								<li class="fragment fade-in">Variables &amp; watches</li>
+							</ul>
+						</div>
+						<div style="width: 60%">
+							<img src="images/debugger.png" style="width: 200%" />
+						</div>
+					</div>
+					<aside class="notes">
+						We use special tools called debuggers to find these mistakes.
+						When writing new software we often use the same debug tools to test if the program runs correctly.
+					</aside>
+				</section>
+
+				<section>
+					<h1>Interviews</h1>
+					<ul>
+						<li class="fragment fade-in">Stepping "painful"</li>
+						<li class="fragment fade-in">Breakpoints: no overview</li>
+						<li class="fragment fade-in">Prefer <code>printf</code>-debugging</li>
+					</ul>
+					<aside class="notes">
+					</aside>
+				</section>
+
+				<section>
+					<h1><code>printf</code>-debugging</h1>
+					<pre><code data-trim data-noescape>
+inputStream
+  <mark>.do(x => printf("%d", x))</mark>
+  .map(x => 10 * x)
+  <mark>.do(x => printf("map: %d", x))</mark>
+  .filter(_ > 100)
+  .scan(_ + _)
+  <mark>.do(x => printf("scan %d", x))</mark>
+  .subscribe(render)
+	</code></pre>
+<pre><code data-trim data-noescape>
+// Output
+<span class="fragment fade-in">5</span>
+<span class="fragment fade-in">8</span>
+<span class="fragment fade-in">12
+map: 120</span>
+<span class="fragment fade-in">15
+map: 150
+scan: 270
+</span>
+	</code></pre>
+					<aside class="notes">
+					</aside>
+				</section>
+
+				<section>
+					<h1><code>printf</code>-debugging</h1>
+					<ul>
+						<li class="fragment fade-in">Requires code changes</li>
+						<li class="fragment fade-in">No overview and context</li>
+						<li class="fragment fade-in"><i>life-cycle events</i></li>
+					</ul>
+				</section>
+
+				<section>
+					<p>Can we do better?</p>
+					<ul>
+						<li class="fragment fade-in">Overview of structure of streams</li>
+						<li class="fragment fade-in">Understanding dependencies</li>
+						<li class="fragment fade-in">Finding issues &amp; bugs</li>
+						<li class="fragment fade-in">Understanding code</li>
+					</ul>
+				</section>
+
+				<section>
+					<p>Yes!</p>
+					<h1 class="fragment fade-in"><img class="inline" src="images/rx.svg" /> RxFiddle</h1>
+					<ul>
+						<li class="fragment fade-in">Overview of streams</li>
+						<li class="fragment fade-in">Detailed view of single <i>flow</i></li>
+					</ul>
+					<aside class="notes">
+						YES! As part of my thesis I designed a new debugger for Rx.<br>
+						Rx-Fiddle. RxFiddle provides...
+					</aside>
+				</section>
+
+				<section>
+						<a target="_blank" href="http://rxfiddle.net/#type=editor&code=Y29uc3Qgc291cmNlMSA9IFJ4Lk9ic2VydmFibGUKICAub2YoMSwgMiwgMywgNCkKCmNvbnN0IHNvdXJjZTIgPSBSeC5PYnNlcnZhYmxlCiAgLmNyZWF0ZShvID0+IHsKCW8ubmV4dCgiYSIpCglvLm5leHQoImIiKQoJby5uZXh0KCJjIikKCW8uZXJyb3IobmV3IEVycm9yKCkpCiAgfSkKClJ4Lk9ic2VydmFibGUub2Yoc291cmNlMSwgc291cmNlMikKICAubWVyZ2VBbGwoKQogIC5za2lwKDIpCiAgLnN1YnNjcmliZSgKICAgIGNvbnNvbGUubG9nLCAKICAgIGNvbnNvbGUud2FybgogICk=">
+							<img class="fragment fade-in" src="images/screenshot.png" />
+						</a>
+						<aside class="notes">
+							<div>Remember...</div>
+							<ul>
+								<li>the green pipes?</li>
+								<li>the Marble Diagram?</li>
+							</ul>
+							... generate these pipes as a visualization?
+							<br>...and generate and stack marble diagrams?
+						</aside>
+				</section>
+
+				<section>
+					<ul>
+						<li>Instrumentation</li>
+						<li>Visualizer</li>
+					</ul>
+					<aside class="notes">How does it work?</aside>
+				</section>
+
+				<section>
+					<div class="flex multicol">
+						<div style="width:50%">
+<pre><code data-trim data-noescape>
+Rx.Observable
+  <span>.of(source1, source2)</span>
+  <span>.mergeAll()</span>
+  .skip(2)
+  .subscribe()
+</code></pre>
+						</div>
+						<div style="width:50%">
+							<svg class="overflow">
+								<g class="fragment fade-in">
+									<g class="fragment fade-out">
+										<path class="arrow2" d="M -510 53 l 510 0"></path>
+										<path class="arrow2" d="M -510 80 l 510 0"></path>
+									</g>
+								</g>
+								<g class="fragment fade-in">
+									<g class="fragment fade-out">
+										<path class="arrow2" d="M -510 80 l 510 0"></path>
+										<path class="arrow2" d="M -510 106 l 510 0"></path>
+									</g>
+								</g>
+								<g class="fragment fade-in">
+									<g class="fragment fade-out">
+										<path class="arrow2" d="M -510 106 l 510 0"></path>
+										<path class="arrow2" d="M -510 132 l 510 0"></path>
+									</g>
+								</g>
+								<g class="fragment fade-in">
+									<g class="fragment fade-out">
+										<path class="arrow2" d="M -510 132 l 510 0"></path>
+										<path class="arrow2" d="M -510 158 l 510 0"></path>
+									</g>
+								</g>
+								<image href="images/screenshot.png" x="50" y="20%" height="150px" />
+								<defs><marker id="arrow2" markerHeight="10" markerUnits="strokeWidth" markerWidth="10" orient="auto" overflow="visible" refx="-3" refy="0"><path d="M-4,-2 L-4,2 L0,0 z" fill="inherit"></path></marker><marker id="arrow-reverse" markerHeight="10" markerUnits="strokeWidth" markerWidth="10" orient="auto" overflow="visible" refx="0" refy="3"><path d="M0,0 L4,2 L4,-2 z" fill="blue"></path></marker></defs>
+							</svg>
+						</div>
+					</div>
+					<aside class="notes">We trace every Rx method call. How?</aside>
+				</section>
+
+				<section>
+<pre><code data-trim data-noescape>
+let original = Rx.Observable.of
+
+<span class="fragment fade-in">Rx.Observable.of = function(...arguments) {
+    <span class="fragment fade-in">debugger.start(original, this, arguments)</span>
+    <span class="fragment fade-in">let result = original(...arguments)</span>
+    <span class="fragment fade-in">debugger.end(original, this, arguments, result)</span>
+    <span class="fragment fade-in">return result</span>
+}</span>
+</code></pre>	
+					<aside class="notes">1. store function<br>
+					2. replace function<br>
+					3. call debugger<br>
+					4. call original function<br>
+					5. call debugger<br>
+					6. return result<br>
+					Can be done in most languages. Including JVM for Java and Scala development.
+					</aside>
+				</section>
+				
+				<section>
+					<h2><i>Data Flow Graph</i></h2>
+					<div class="flex multicol">
+						<a target="_blank" style="width:13%" href="http://rxfiddle.net/#lib=rxjs4&type=editor&code=Ly8gSW5wdXQgc3RlYW1zCnZhciB3ZWlnaHQkID0gc3VydmV5LmJtaS53ZWlnaHQkOyAvLyA6IFJ4Lk9ic2VydmFibGU8bnVtYmVyPgp2YXIgaGVpZ2h0JCA9IHN1cnZleS5ibWkuaGVpZ2h0JDsgLy8gOiBSeC5PYnNlcnZhYmxlPG51bWJlcj4KCi8vIEJNSSBQcm9ncmFtCnZhciBibWkkID0gd2VpZ2h0JAogIC5jb21iaW5lTGF0ZXN0KGhlaWdodCQsICh3LCBoKSA9PiB3IC8gKGggKiBoKSk7CgpibWkkLnN1YnNjcmliZSh4ID0+IHsKICBzdXJ2ZXkubG9nKCdCTUkgaXMgJyArIHgpCn0sIGVyciA9PiB7fSwgKCkgPT4gewogIGNvbnNvbGUubG9nKCJtZWFzdXJlbWVudHMgY29tcGxldGUiKQp9KTsKCi8vIEVtdWxhdGUgcGFzc2luZyBvZiB0aW1lCnN1cnZleS5zY2hlZHVsZXIuYWR2YW5jZVRvKDEwMDAwKQ==">
+							<svg id="structure" version="1.1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 150 200">
+							<g>
+								<path d="M 100 50 C 100 100, 75 100,  75 150" fill="transparent" id="10/7" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path>
+								<path d="M 50 50 C 50 100, 75 100,  75 150" fill="transparent" id="8/7" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path></g><g>
+								<path d="M50 50" id="cluster-4" stroke="rgb(251, 125, 189) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path>
+								<circle cx="50" cy="50" fill="rgb(251, 125, 189) " id="cluster-4/circle-8" r="5" style="transition: all 0.5s;"></circle>
+								<path d="M75 150" id="cluster-6" stroke="rgb(251, 240, 125) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path>
+								<circle cx="75" cy="150" fill="rgb(251, 240, 125) " id="cluster-6/circle-7" r="5" style="transition: all 0.5s;"></circle>
+								<path d="M100 50" id="cluster-9" stroke="rgb(251, 130, 125) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path>
+								<circle cx="100" cy="50" fill="rgb(251, 130, 125) " id="cluster-9/circle-10" r="5" style="transition: all 0.5s;"></circle></g>
+								<g class="fragment fade-in" data-fragment-index="2">
+								<circle cx="130" cy="50" fill="rgb(100, 100, 100) " r="20" style="transition: all 0.5s;"></circle>
+								<text x="120" y="62">1</circle>
+								</g>
+								<g class="fragment fade-in" data-fragment-index="3">
+								<circle cx="20" cy="50" fill="rgb(100, 100, 100) " r="20" style="transition: all 0.5s;"></circle>
+								<text x="10" y="62">1</circle>
+								</g>
+								<g class="fragment_ fade-in">
+								<circle class="fragment fade-in" data-fragment-index="1" cx="40" cy="150" fill="rgb(100, 100, 100) " r="20" style="transition: all 0.5s;"></circle>
+								<text class="fragment fade-in" data-fragment-index="6" x="30" y="162">2</circle>
+								</g>
+								<defs><filter height="200%" id="dropshadow" width="200%"><feGaussianBlur in="SourceAlpha" stdDeviation="2"></feGaussianBlur><feOffset dx="0" dy="0" result="offsetblur"></feOffset><feMerge><feMergeNode></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter><marker id="arrow" markerHeight="10" markerUnits="strokeWidth" markerWidth="10" orient="auto" overflow="visible" refx="0" refy="3"><path d="M-4,-2 L-4,2 L0,0 z" fill="inherit"></path></marker><marker id="arrow-reverse" markerHeight="10" markerUnits="strokeWidth" markerWidth="10" orient="auto" overflow="visible" refx="0" refy="3"><path d="M0,0 L4,2 L4,-2 z" fill="blue"></path></marker></defs></svg>
+						</a>
+						<a target="_blank" style="width:18%" href="http://rxfiddle.net/#type=editor&code=Y29uc3Qgc291cmNlMSA9IFJ4Lk9ic2VydmFibGUKICAub2YoMSwgMiwgMywgNCkKCmNvbnN0IHNvdXJjZTIgPSBSeC5PYnNlcnZhYmxlCiAgLmNyZWF0ZShvID0+IHsKCW8ubmV4dCgiYSIpCglvLm5leHQoImIiKQoJby5uZXh0KCJjIikKCW8uZXJyb3IobmV3IEVycm9yKCkpCiAgfSkKClJ4Lk9ic2VydmFibGUub2Yoc291cmNlMSwgc291cmNlMikKICAubWVyZ2VBbGwoKQogIC5za2lwKDIpCiAgLnN1YnNjcmliZSgKICAgIGNvbnNvbGUubG9nLCAKICAgIGNvbnNvbGUud2FybgogICk=">
+							<svg class="rxfiddle" version="1.1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 200 300"><g><path d="M 100 50 C 100 100, 150 100,  150 150" fill="transparent" id="10/6" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 50 50 C 50 100, 150 100,  150 150" fill="transparent" id="11/6" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 150 150 C 150 200, 150 200,  150 250" fill="transparent" id="6/7" stroke="rgba(0,0,0,0.3)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 150 50 C 150 100, 150 100,  150 150" fill="transparent" id="9/6" stroke="rgba(0,0,0,0.3)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path></g><g><path d="M100 50" id="cluster-1" stroke="rgb(251, 172, 125) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="100" cy="50" fill="rgb(251, 172, 125) " id="cluster-1/circle-10" r="5" style="transition: all 0.5s;"></circle><path d="M50 50" id="cluster-2" stroke="rgb(135, 125, 251) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="50" cy="50" fill="rgb(135, 125, 251) " id="cluster-2/circle-11" r="5" style="transition: all 0.5s;"></circle><path d="M150 50" id="cluster-3" stroke="rgb(152, 251, 125) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="150" cy="50" fill="rgb(152, 251, 125) " id="cluster-3/circle-9" r="5" style="transition: all 0.5s;"></circle><path d="M150 150" id="cluster-4" stroke="rgb(251, 125, 189) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="150" cy="150" fill="rgb(251, 125, 189) " id="cluster-4/circle-6" r="5" style="transition: all 0.5s;"></circle><path d="M150 250" id="cluster-5" stroke="rgb(125, 226, 251) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="150" cy="250" fill="rgb(125, 226, 251) " id="cluster-5/circle-7" r="5" style="transition: all 0.5s;"></circle></g><defs><filter height="200%" id="dropshadow" width="200%"><feGaussianBlur in="SourceAlpha" stdDeviation="2"></feGaussianBlur><feOffset dx="0" dy="0" result="offsetblur"></feOffset><feMerge><feMergeNode></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter><marker id="arrow" markerHeight="10" markerUnits="strokeWidth" markerWidth="10" orient="auto" overflow="visible" refx="0" refy="3"><path d="M-4,-2 L-4,2 L0,0 z" fill="inherit"></path></marker><marker id="arrow-reverse" markerHeight="10" markerUnits="strokeWidth" markerWidth="10" orient="auto" overflow="visible" refx="0" refy="3"><path d="M0,0 L4,2 L4,-2 z" fill="blue"></path></marker></defs></svg>
+						</a>
+						<a target="_blank" style="width:18%" href="http://rxfiddle.net/#type=editor&code=Y29uc3Qgc291cmNlMSA9IFJ4Lk9ic2VydmFibGUKICAub2YoMSwgMiwgMywgNCkKCmNvbnN0IHNvdXJjZTIgPSBSeC5PYnNlcnZhYmxlCiAgLmNyZWF0ZShvID0+IHsKCW8ubmV4dCgiYSIpCglvLm5leHQoImIiKQoJby5uZXh0KCJjIikKICAgIG8uY29tcGxldGUoKQogIH0pCgpsZXQgciA9IFJ4Lk9ic2VydmFibGUub2Yoc291cmNlMSwgc291cmNlMikKICAubWVyZ2VBbGwoKQogIC5wdWJsaXNoKG8gPT4gby5tZXJnZShvKSkKICAuc3Vic2NyaWJlKAogICAgY29uc29sZS5sb2csIAogICAgY29uc29sZS53YXJuCiAgKQ==">
+							<svg id="structure" version="1.1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 200 400"><g><path d="M 89.5 250 C 89.5 300, 150 300,  150 350" fill="transparent" id="12/10" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 150 250 C 150 300, 150 300,  150 350" fill="transparent" id="13/10" stroke="rgba(0,0,0,0.3)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 139.5 250 C 139.5 300, 150 300,  150 350" fill="transparent" id="15/10" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 150 50 C 150 100, 150 100,  150 150" fill="transparent" id="17/18" stroke="rgba(0,0,0,0.3)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 150 150 C 150 200, 150 200,  150 250" fill="transparent" id="18/13" stroke="rgba(0,0,0,0.3)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 150 150 C 150 200, 139.5 200,  139.5 250" fill="transparent" id="18/15" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 100 50 C 100 100, 150 100,  150 150" fill="transparent" id="19/18" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 50 50 C 50 100, 150 100,  150 150" fill="transparent" id="20/18" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path></g><g><path d="M100 50" id="cluster-1" stroke="rgb(251, 172, 125) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="100" cy="50" fill="rgb(251, 172, 125) " id="cluster-1/circle-19" r="5" style="transition: all 0.5s;"></circle><path d="M150 150" id="cluster-18" stroke="rgb(125, 200, 251) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="150" cy="150" fill="rgb(125, 200, 251) " id="cluster-18/circle-18" r="5" style="transition: all 0.5s;"></circle><path d="M50 50" id="cluster-2" stroke="rgb(135, 125, 251) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="50" cy="50" fill="rgb(135, 125, 251) " id="cluster-2/circle-20" r="5" style="transition: all 0.5s;"></circle><path d="M150 50" id="cluster-3" stroke="rgb(152, 251, 125) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="150" cy="50" fill="rgb(152, 251, 125) " id="cluster-3/circle-17" r="5" style="transition: all 0.5s;"></circle><path d="M150 250 L 139.5 250" id="cluster-6" stroke="rgb(251, 240, 125) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="150" cy="250" fill="rgb(251, 240, 125) " id="cluster-6/circle-13" r="5" style="transition: all 0.5s;"></circle><circle cx="139.5" cy="250" fill="rgb(251, 240, 125) " id="cluster-6/circle-15" r="5" style="transition: all 0.5s;"></circle><path d="M89.5 250" id="cluster-7" stroke="rgb(203, 125, 251) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="89.5" cy="250" fill="rgb(203, 125, 251) " id="cluster-7/circle-12" r="5" style="transition: all 0.5s;"></circle><path d="M150 350" id="cluster-8" stroke="rgb(125, 251, 167) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="150" cy="350" fill="rgb(125, 251, 167) " id="cluster-8/circle-10" r="5" style="transition: all 0.5s;"></circle></g><defs><filter height="200%" id="dropshadow" width="200%"><feGaussianBlur in="SourceAlpha" stdDeviation="2"></feGaussianBlur><feOffset dx="0" dy="0" result="offsetblur"></feOffset><feMerge><feMergeNode></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter><marker id="arrow" markerHeight="10" markerUnits="strokeWidth" markerWidth="10" orient="auto" overflow="visible" refx="0" refy="3"><path d="M-4,-2 L-4,2 L0,0 z" fill="inherit"></path></marker><marker id="arrow-reverse" markerHeight="10" markerUnits="strokeWidth" markerWidth="10" orient="auto" overflow="visible" refx="0" refy="3"><path d="M0,0 L4,2 L4,-2 z" fill="blue"></path></marker></defs></svg>
+						</a>
+						<a target="_blank" style="width:35%" href="http://rxfiddle.net/#lib=rxjs4&type=editor&code=Ly8gdGVzdCBpbnB1dHM6CgogLy8gbmV3WWVhciQgOiBSeC5PYnNlcnZhYmxlPERhdGU+IGN1cnJlbnQgZGF0ZSwgZXZlcnkgeWVhcgp2YXIgbmV3WWVhciQgPSBzdXJ2ZXkubG90dGVyeS5uZXdZZWFyJC5tYXAoZGF0ZSA9PiBkYXRlLnRvVVRDU3RyaW5nKCkpCiAvLyBzZXJ2ZXIgOiBEYXRlID0+IFJ4Lk9ic2VydmFibGU8TG90dGVyeVJlc3VsdD4KbGV0IHNlcnZlciA9IHN1cnZleS5sb3R0ZXJ5LnZlcnlPbGRTZXJ2ZXIKCi8vIHByb2dyYW0KCm5ld1llYXIkCiAgLmZsYXRNYXAoZGF0ZSA9PiBzZXJ2ZXIoZGF0ZSkpCiAgLnN1YnNjcmliZSgKICAgIGxvdHRlcnlSZXN1bHQgPT4gewogICAgICBzdXJ2ZXkucmVuZGVyU29tZXRoaW5nKGxvdHRlcnlSZXN1bHQpCiAgICB9LAogICAgZXJyID0+IHsKICAgICAgc3VydmV5LnNob3dFcnJvcihlcnIpCiAgICB9CiAgKQoKLy8gQWR2YW5jZSB0ZXN0IHRpbWUgdmVyeSBmYXIgaW50byB0aGUgZnV0dXJlCnN1cnZleS5zY2hlZHVsZXIuYWR2YW5jZVRvKDFlMjAp">
+							<svg id="structure" version="1.1" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 400 400"><g><path d="M 350 250 C 350 300, 350 300,  350 350" fill="transparent" id="12/11" stroke="rgba(0,0,0,0.3)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 350 150 C 350 200, 350 200,  350 250" fill="transparent" id="13/12" stroke="rgba(0,0,0,0.3)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 350 50 C 350 100, 350 100,  350 150" fill="transparent" id="14/13" stroke="rgba(0,0,0,0.3)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 300 150 C 300 200, 350 200,  350 250" fill="transparent" id="17/12" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 250 150 C 250 200, 350 200,  350 250" fill="transparent" id="19/12" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 200 150 C 200 200, 350 200,  350 250" fill="transparent" id="21/12" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 150 150 C 150 200, 350 200,  350 250" fill="transparent" id="23/12" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 100 150 C 100 200, 350 200,  350 250" fill="transparent" id="25/12" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path><path d="M 50 150 C 50 200, 350 200,  350 250" fill="transparent" id="27/12" stroke="rgba(0,0,0,0.1)" stroke-width="10" style="transition: d 0.5s, stroke 0.5s;"></path></g><g><path d="M350 350" id="cluster-10" stroke="rgb(125, 158, 251) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="350" cy="350" fill="rgb(125, 158, 251) " id="cluster-10/circle-11" r="5" style="transition: all 0.5s;"></circle><path d="M300 150" id="cluster-15" stroke="rgb(161, 125, 251) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="300" cy="150" fill="rgb(161, 125, 251) " id="cluster-15/circle-17" r="5" style="transition: all 0.5s;"></circle><path d="M250 150" id="cluster-18" stroke="rgb(125, 200, 251) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="250" cy="150" fill="rgb(125, 200, 251) " id="cluster-18/circle-19" r="5" style="transition: all 0.5s;"></circle><path d="M200 150" id="cluster-20" stroke="rgb(229, 125, 251) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="200" cy="150" fill="rgb(229, 125, 251) " id="cluster-20/circle-21" r="5" style="transition: all 0.5s;"></circle><path d="M150 150" id="cluster-22" stroke="rgb(251, 156, 125) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="150" cy="150" fill="rgb(251, 156, 125) " id="cluster-22/circle-23" r="5" style="transition: all 0.5s;"></circle><path d="M100 150" id="cluster-24" stroke="rgb(168, 251, 125) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="100" cy="150" fill="rgb(168, 251, 125) " id="cluster-24/circle-25" r="5" style="transition: all 0.5s;"></circle><path d="M50 150" id="cluster-26" stroke="rgb(125, 242, 251) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="50" cy="150" fill="rgb(125, 242, 251) " id="cluster-26/circle-27" r="5" style="transition: all 0.5s;"></circle><path d="M350 50" id="cluster-4" stroke="rgb(251, 125, 189) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="350" cy="50" fill="rgb(251, 125, 189) " id="cluster-4/circle-14" r="5" style="transition: all 0.5s;"></circle><path d="M350 150" id="cluster-6" stroke="rgb(251, 240, 125) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="350" cy="150" fill="rgb(251, 240, 125) " id="cluster-6/circle-13" r="5" style="transition: all 0.5s;"></circle><path d="M350 250" id="cluster-9" stroke="rgb(251, 130, 125) " stroke-width="10" stroke-linecap="round" style="transition: d 0.5s;"></path><circle cx="350" cy="250" fill="rgb(251, 130, 125) " id="cluster-9/circle-12" r="5" style="transition: all 0.5s;"></circle></g><defs><filter height="200%" id="dropshadow" width="200%"><feGaussianBlur in="SourceAlpha" stdDeviation="2"></feGaussianBlur><feOffset dx="0" dy="0" result="offsetblur"></feOffset><feMerge><feMergeNode></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter><marker id="arrow" markerHeight="10" markerUnits="strokeWidth" markerWidth="10" orient="auto" overflow="visible" refx="0" refy="3"><path d="M-4,-2 L-4,2 L0,0 z" fill="inherit"></path></marker><marker id="arrow-reverse" markerHeight="10" markerUnits="strokeWidth" markerWidth="10" orient="auto" overflow="visible" refx="0" refy="3"><path d="M0,0 L4,2 L4,-2 z" fill="blue"></path></marker></defs></svg>
+						</a>
+					</div>
+					<aside class="notes">
+						4 different Data Flow Graphs
+					</aside>
+				</section>
+
+				<section>
+					<h2><i>Dynamic Marble Diagram</i></h2>
+					<a href="http://rxfiddle.net/#type=editor&code=Y29uc3Qgc291cmNlMSA9IFJ4Lk9ic2VydmFibGUKICAub2YoMSwgMiwgMywgNCkKCmNvbnN0IHNvdXJjZTIgPSBSeC5PYnNlcnZhYmxlCiAgLmNyZWF0ZShvID0+IHsKCW8ubmV4dCgiYSIpCglvLm5leHQoImIiKQoJby5uZXh0KCJjIikKCW8uZXJyb3IobmV3IEVycm9yKCkpCiAgfSkKClJ4Lk9ic2VydmFibGUub2Yoc291cmNlMSwgc291cmNlMikKICAubWVyZ2VBbGwoKQogIC5za2lwKDIpCiAgLnN1YnNjcmliZSgKICAgIGNvbnNvbGUubG9nLCAKICAgIGNvbnNvbGUud2FybgogICk=">
+						<img class="stretch" style="max-width: 90%" src="images/dmd.png" />
+					</a>
+				</section>
+
+				<section>
+					<h2>Experiment</h2>
+					<ul>
+						<li>111 participants</li>
+						<li data-fragment-index="1" class="fragment fade-in">survey, 1 warm-up task, 4 debug tasks</li>
+						<li data-fragment-index="2" class="fragment fade-in">Measure: <i>time</i> until correct answer</li>
+					</ul>
+					<img class="fragment fade-in" class="stretch" src="images/tweet.1.png" />
+				</section>
+
+				<section>
+					<h2>Experiment</h2>
+					<p>Time per task</p>
+					<img class="fragment fade-in" class="stretch" src="images/timePerTask.png" />
+				</section>
+
+				<section>
+					<div class="flex multicol">
+					<img style="width:50%" class="fragment fade-in" class="stretch" src="images/tweet.3.png" />
+					<img style="width:50%" class="fragment fade-in" class="stretch" src="images/tweet.2.png" />
+					</div>
+					<img style="width:50%" class="fragment fade-in" class="stretch" src="images/tweet.4.png" />
+				</section>
+
+				<section>
+					<p>"By using RxFiddle<br>when learning and understanding<br>
+					what RxJS does in our project,
+					<br>I have a feeling of <i>improved control</i> over our Observables, Subscriptions and 
+					<br>the reactive parts of our app".</p>
+				</section>
+			
+				<section>
+					<h2>Future work</h2>
+					<ul>
+						<li>Data Flow Graph scalability</li>
+						<li>show <i>provenance</i> and <i>lineage tracking</i></li>
+						<li>alternative stream visualizations (plots, FFT)</li>
+						<li><i>Smart Breakpoints</i></li>
+					</ul>
+				</section>
+
+				<section data-background-color="black">
+						<section><!-- Intentionally left blank --></section>
+						<section class="stack">
+							<h2>Related Work (1)</h2>
+							<iframe class="stretch" src="http://rxmarbles.com"></iframe>
+						</section>
+						<section class="stack">
+							<h2>Related Work (2)</h2>
+							<iframe class="stretch" src="https://rxviz.com"></iframe>
+						</section>
+						<section class="stack">
+							<h2>Related Work (3)</h2>
+							<iframe class="stretch" src="http://rxmarbles.com"></iframe>
+						</section>
+						<section class="stack">
+							<h2>Experiment</h2>
+							<p>Outcome per task</p>
+							<img class="stretch" src="images/resultPerTask.png" />
+						</section>
+						<section class="stack">
+							<h2>Experiment</h2>
+							<p>Tasks</p>
+							<div class="flex multicol">
+								<div style="width:25%">
+									<img src="images/tasks/t1.generate.png" />
+									<div><a target="_blank" href="http://rxfiddle.net/#lib=rxjs4&type=editor&code=UnguT2JzZXJ2YWJsZS5yYW5nZSgyLCAxMCkKICAuc2NhbigoeCwgbmV4dCkgPT4geCArICh4IC0gMSkpCiAgLnN1YnNjcmliZSh2YWx1ZSA9PiB7CiAgICBzdXJ2ZXkucmVuZGVyKHZhbHVlKQogIH0p">Open</a></div>
+								</div>
+								<div style="width:25%">
+									<img src="images/tasks/t2.bmi.png" />
+									<div><a target="_blank" href="http://rxfiddle.net/#lib=rxjs4&type=editor&code=Ly8gSW5wdXQgc3RlYW1zCnZhciB3ZWlnaHQkID0gc3VydmV5LmJtaS53ZWlnaHQkOyAvLyA6IFJ4Lk9ic2VydmFibGU8bnVtYmVyPgp2YXIgaGVpZ2h0JCA9IHN1cnZleS5ibWkuaGVpZ2h0JDsgLy8gOiBSeC5PYnNlcnZhYmxlPG51bWJlcj4KCi8vIEJNSSBQcm9ncmFtCnZhciBibWkkID0gd2VpZ2h0JAogIC5jb21iaW5lTGF0ZXN0KGhlaWdodCQsICh3LCBoKSA9PiB3IC8gKGggKiBoKSk7CgpibWkkLnN1YnNjcmliZSh4ID0+IHsKICBzdXJ2ZXkubG9nKCdCTUkgaXMgJyArIHgpCn0sIGVyciA9PiB7fSwgKCkgPT4gewogIGNvbnNvbGUubG9nKCJtZWFzdXJlbWVudHMgY29tcGxldGUiKQp9KTsKCi8vIEVtdWxhdGUgcGFzc2luZyBvZiB0aW1lCnN1cnZleS5zY2hlZHVsZXIuYWR2YW5jZVRvKDEwMDAwKQ==">Open</a></div>
+								</div>
+								<div style="width:25%">
+									<img src="images/tasks/t3.time.png" />
+									<div><a target="_blank" href="http://rxfiddle.net/#lib=rxjs4&type=editor&code=Ly8gdGVzdCBpbnB1dHM6CgogLy8gbmV3WWVhciQgOiBSeC5PYnNlcnZhYmxlPERhdGU+IGN1cnJlbnQgZGF0ZSwgZXZlcnkgeWVhcgp2YXIgbmV3WWVhciQgPSBzdXJ2ZXkubG90dGVyeS5uZXdZZWFyJC5tYXAoZGF0ZSA9PiBkYXRlLnRvVVRDU3RyaW5nKCkpCiAvLyBzZXJ2ZXIgOiBEYXRlID0+IFJ4Lk9ic2VydmFibGU8TG90dGVyeVJlc3VsdD4KbGV0IHNlcnZlciA9IHN1cnZleS5sb3R0ZXJ5LnZlcnlPbGRTZXJ2ZXIKCi8vIHByb2dyYW0KCm5ld1llYXIkCiAgLmZsYXRNYXAoZGF0ZSA9PiBzZXJ2ZXIoZGF0ZSkpCiAgLnN1YnNjcmliZSgKICAgIGxvdHRlcnlSZXN1bHQgPT4gewogICAgICBzdXJ2ZXkucmVuZGVyU29tZXRoaW5nKGxvdHRlcnlSZXN1bHQpCiAgICB9LAogICAgZXJyID0+IHsKICAgICAgc3VydmV5LnNob3dFcnJvcihlcnIpCiAgICB9CiAgKQoKLy8gQWR2YW5jZSB0ZXN0IHRpbWUgdmVyeSBmYXIgaW50byB0aGUgZnV0dXJlCnN1cnZleS5zY2hlZHVsZXIuYWR2YW5jZVRvKDFlMjAp">Open</a></div>
+								</div>
+								<div style="width:25%">
+									<img src="images/tasks/t4.imdb.png" />
+									<div><a  target="_blank" href="http://rxfiddle.net/#lib=rxjs4&type=editor&code=Ly8gVGVzdCBpbnB1dHMKLy8gaW5wdXQkIDogUnguT2JzZXJ2YWJsZTxzdHJpbmc+CnZhciBpbnB1dCQgPSBzdXJ2ZXkuaW1kYi5qb2huc0lucHV0JAogIC5kbyh4ID0+IGNvbnNvbGUubG9nKCJpbnB1dDogIit4KSkKLy8gZmluZE1vdmllc0FzeW5jIDogKHF1ZXJ5OiBzdHJpbmcpID0+IFJ4Lk9ic2VydmFibGU8c3RyaW5nW10+CnZhciBmaW5kTW92aWVzQXN5bmMgPSBzdXJ2ZXkuaW1kYi5maW5kTW92aWVzQXN5bmMKCi8vIFByb2dyYW0KCmlucHV0JAogIC5kZWJvdW5jZSg1MCwgc3VydmV5LnNjaGVkdWxlcikKICAuZmxhdE1hcChxID0+IHsgcmV0dXJuIGZpbmRNb3ZpZXNBc3luYyhxKSB9KQogIC5zdWJzY3JpYmUobGlzdCA9PiBzdXJ2ZXkuaW1kYi5yZW5kZXIobGlzdCkpCgovLyBBZHZhbmNlIHRpbWUgdmVyeSBmYXIgaW50byB0aGUgZnV0dXJlCnN1cnZleS5zY2hlZHVsZXIuYWR2YW5jZVRvKDFlNik">Open</a></div>
+								</div>
+							</div>
+						</section>
+						<section class="stack"></section>
+				</section>
+
 			</div>
 		</div>
-		<!--<div class="bar">
-			<img src="images/tudelft_white.svg" style="max-height: 2em" />
-			<img src="images/codestar.svg" style="max-height: 1em" />
-			<img src="images/rx.svg" style="max-height: 1em" />
-			<div class="space"></div>
-			<span>Herman Banken</span>
-		</div>-->
+	
 		<script src="bower_components/reveal.js/lib/js/head.min.js"></script>
 		<script src="bower_components/reveal.js/js/reveal.js"></script>
 		<script>

@@ -40,7 +40,7 @@ svg .pipe {	fill: #29AF1D; stroke-width: 0; }
 svg .pipebar {	fill: #219417; stroke-width: 0; }
 
 .reveal section div.blue-container {
-	margin: 0 -25px;
+	margin: 0 -15vw; padding: 0 15vw;
 	background-color: #00A6D6;
 }
 
@@ -67,6 +67,115 @@ svg .pipebar {	fill: #219417; stroke-width: 0; }
 }
 .bar .space { flex-grow: 0.4; }
 .reveal section .bar img { border: none; box-shadow: none; background: none; margin: auto; }
+
+mark {
+	background: lightgreen;
+}
+
+svg .arrow {
+	stroke-width: 3px;
+	stroke: black;
+	marker-end: url(#arrow);
+}
+svg .arrow2 { stroke-width: 3px; stroke: black; marker-end: url(#arrow2); }
+
+svg.overflow {
+	overflow: visible;
+}
+
+/*********************************************
+ * MARBLE DIAGRAMS
+ *********************************************/
+.layered {
+    position: relative;
+}
+#marbles {
+	background: lightgray;
+}
+.marblediagram {
+    width: 100%;
+    height: 60px;
+}
+.layered .fg {
+    z-index: 10;
+}
+.layered .bg, .layered .fg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+}
+.marblediagram svg {
+    height: 100%;
+    width: 100%;
+    z-index: 5;
+    position: absolute;
+		overflow: visible;
+}
+.marbleevent > span {
+    display: none;
+    max-width: 400px;
+    width: auto;
+    overflow: auto;
+    background: rgba(0,0,0,0.8);
+    border-radius: 3px;
+    padding: 5px;
+    margin-top: 43px;
+    color: white;
+    word-wrap: break-word;
+    direction: ltr;
+    cursor: default;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    user-select: text;
+}
+.marbleevent:hover > span, .marbleevent:active > span, .marbleevent:focus > span {
+    display: inline-block;
+    white-space: nowrap;
+}
+.marblediagram line.time {
+    stroke: lightgray;
+    stroke-width: 2px;
+}
+.marblediagram line.active {
+    stroke: black;
+    stroke-width: 2px;
+}
+.marblediagram .arrow {
+    stroke-width: 1px;
+    stroke: gray;
+    stroke-dasharray: 10, 5;
+    marker-end: url(#arrow);
+}
+.marblediagram circle.next {
+    fill: limegreen;
+}
+.marblediagram .complete,
+.marblediagram .error {
+    stroke-width: 2;
+    stroke: black;
+}
+.reveal #marbles .operator {
+    height: 40px;
+    line-height: 38px;
+    padding: 0 10px;
+    border: 1px solid #777;
+    box-sizing: border-box;
+    background: white;
+    text-align: center;
+    position: relative;
+    /* margin-left: 20px; */
+    font-size: 0.7em;
+}
+.marbleevent {
+    position: absolute;
+    width: 18px;
+    margin-left: -9px;
+    height: 100%;
+    outline: none;
+}
 
 /*********************************************
  * NAVIGATION CONTROLS
