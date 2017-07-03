@@ -173,7 +173,7 @@
 					<div class="flex multicol">
 						<div style="width: 50%">
 							<pre><code data-trim data-noescape>
-inputStream
+<mark>inputStream</mark>
   .map(x => 10 * x)
   .filter(_ > 100)
   .scan(_ + _)
@@ -182,10 +182,10 @@ inputStream
 						</div>
 						<div style="width: 50%">
 							<pre class="fragment fade-in"><code data-trim data-noescape>
-marioStream
+<mark>marioStream</mark>
   .filter(_.level > 4)
   .throttle(100ms)
-  .merge(shellStream)
+  .merge(<mark>shellStream</mark>)
   .scan(battle)
   .subscribe(render)
 	</code></pre>
@@ -206,6 +206,16 @@ marioStream
 				</section>
 
 				<section>
+					<div style="background: #A9A9A9; margin: 0 -15vw 0; padding: 0 15vw">
+						<img src="images/marble.2.png" />
+					</div>
+					<aside class="notes">
+						Besides "next" events (colored cirble marbles) and "completetions"<br>
+						Also "error" events, documentations shows cross.
+					</aside>
+				</section>
+
+				<section>
 					<img src="images/debug.png" style="width: 100px" />
 					<h1>De∙bug </h1>
 					<ul>
@@ -217,12 +227,6 @@ marioStream
 						Debugging literally means removing bugs, like insects, from old computer punch cards.
 						In modern times bugs are just mistakes made by the programmer.
 					</aside>
-				</section>
-
-				<section>
-					<div style="background: #A9A9A9; margin: 0 -15vw 0; padding: 0 15vw">
-						<img src="images/marble.2.png" />
-					</div>
 				</section>
 
 				<section>
@@ -255,6 +259,7 @@ marioStream
 						<li class="fragment fade-in">Prefer <code>printf</code>-debugging</li>
 					</ul>
 					<aside class="notes">
+						Professional developers, from 2 companies
 					</aside>
 				</section>
 
@@ -264,10 +269,10 @@ marioStream
 inputStream
   <mark>.do(x => printf("%d", x))</mark>
   .map(x => 10 * x)
-  <mark>.do(x => printf("map: %d", x))</mark>
   .filter(_ > 100)
+  <mark>.do(x => printf("filter: %d", x))</mark>
   .scan(_ + _)
-  <mark>.do(x => printf("scan %d", x))</mark>
+  <mark>.do(x => printf("scan: %d", x))</mark>
   .subscribe(render)
 	</code></pre>
 <pre><code data-trim data-noescape>
@@ -275,9 +280,10 @@ inputStream
 <span class="fragment fade-in">5</span>
 <span class="fragment fade-in">8</span>
 <span class="fragment fade-in">12
-map: 120</span>
+filter: 120
+scan: 120</span>
 <span class="fragment fade-in">15
-map: 150
+filter: 150
 scan: 270
 </span>
 	</code></pre>
@@ -289,7 +295,7 @@ scan: 270
 					<h1><code>printf</code>-debugging</h1>
 					<ul>
 						<li class="fragment fade-in">Requires code changes</li>
-						<li class="fragment fade-in">No overview and context</li>
+						<li class="fragment fade-in">Little overview and context</li>
 						<li class="fragment fade-in"><i>life-cycle events</i></li>
 					</ul>
 				</section>
@@ -390,9 +396,9 @@ Rx.Observable
 let original = Rx.Observable.of
 
 <span class="fragment fade-in">Rx.Observable.of = function(...arguments) {
-    <span class="fragment fade-in">debugger.start(original, this, arguments)</span>
+    <span class="fragment fade-in">debugger.start(this, "of", arguments)</span>
     <span class="fragment fade-in">let result = original(...arguments)</span>
-    <span class="fragment fade-in">debugger.end(original, this, arguments, result)</span>
+    <span class="fragment fade-in">debugger.end(this, "of", arguments, result)</span>
     <span class="fragment fade-in">return result</span>
 }</span>
 </code></pre>	
@@ -406,6 +412,33 @@ let original = Rx.Observable.of
 					</aside>
 				</section>
 				
+				<section>
+					<div class="multicol flex">
+						<div>
+							<img style="max-height:20vh" src="images/debugger-graph-in.png" /><br />
+							<img style="max-height:20vh" class="fragment" data-fragment-index="7" src="images/debugger-graph.png" />
+						</div>
+					<pre style="font-size:37%;width:50%"><code data-trim data-noescape>
+<span class="fragment" data-fragment-index="1">addObervable(id: <mark>o1</mark>, sources: [])
+addObervable(id: <mark>o2</mark>, sources: [<mark>o1</mark>])
+addObervable(id: <mark>o3</mark>, sources: [<mark>o2</mark>])</span>
+<span class="fragment" data-fragment-index="2"><hr>addObserver(id: <mark>s1</mark>, destination: [])
+addObserver(id: <mark>s2</mark>, destination: [<mark>s1</mark>])
+addObserver(id: <mark>s3</mark>, destination: [<mark>s2</mark>])</span>
+<span class="fragment" data-fragment-index="3"><hr>addEvent(<mark>s3</mark>, "next", 1)
+addEvent(<mark>s2</mark>, "next", 2)
+addEvent(<mark>s1</mark>, "next", 2)</span>
+<span class="fragment" data-fragment-index="4"><hr>addEvent(<mark>s3</mark>, "next", 2)
+addEvent(<mark>s2</mark>, "next", 4)</span>
+<span class="fragment" data-fragment-index="5"><hr>addEvent(<mark>s3</mark>, "next", 3)
+addEvent(<mark>s2</mark>, "next", 6)</span>
+<span class="fragment" data-fragment-index="6"><hr>addEvent(<mark>s3</mark>, "complete")
+addEvent(<mark>s2</mark>, "complete")
+addEvent(<mark>s1</mark>, "complete")</span>
+</code></pre>
+					</div>
+				</section>
+
 				<section>
 					<h2><i>Data Flow Graph</i></h2>
 					<div class="flex multicol">
@@ -450,10 +483,16 @@ let original = Rx.Observable.of
 				</section>
 
 				<section>
+					<video id="edgecrossings" loop="true" style="display:block; height: 50vh; margin: 0 auto;" src="images/edgecrossings.mov"></video>
+					<a href="http://rxfiddle.net/#lib=rxjs5&type=editor&code=bGV0IGlubmVyID0gUnguT2JzZXJ2YWJsZS5vZigiYSIpCiAgLnNraXAoMSkKCmxldCBmaXJzdCA9IFJ4Lk9ic2VydmFibGUKCS5vZigxKQoJLm1hcCh4ID0+IHggKiAyKQoKbGV0IHMgPSBmaXJzdC5mbGF0TWFwKF8gPT4gaW5uZXIpCmxldCBhID0gcy5tYXAoXyA9PiBfKQoKYS5zdWJzY3JpYmUoKQphLnN1YnNjcmliZSgpCmlubmVyLnN1YnNjcmliZSgpCmlubmVyLnN1YnNjcmliZSgp">Edge crossing minimization heuristic</a>
+					<label for="edgecrossings" class="fragment" data-play></label>
+				</section>
+
+				<section>
 					<h2><i>Dynamic Marble Diagram</i></h2>
-					<a href="http://rxfiddle.net/#type=editor&code=Y29uc3Qgc291cmNlMSA9IFJ4Lk9ic2VydmFibGUKICAub2YoMSwgMiwgMywgNCkKCmNvbnN0IHNvdXJjZTIgPSBSeC5PYnNlcnZhYmxlCiAgLmNyZWF0ZShvID0+IHsKCW8ubmV4dCgiYSIpCglvLm5leHQoImIiKQoJby5uZXh0KCJjIikKCW8uZXJyb3IobmV3IEVycm9yKCkpCiAgfSkKClJ4Lk9ic2VydmFibGUub2Yoc291cmNlMSwgc291cmNlMikKICAubWVyZ2VBbGwoKQogIC5za2lwKDIpCiAgLnN1YnNjcmliZSgKICAgIGNvbnNvbGUubG9nLCAKICAgIGNvbnNvbGUud2FybgogICk=">
-						<img class="stretch" style="max-width: 90%" src="images/dmd.png" />
-					</a>
+					<video id="dmd" loop="true" style="display:block; height: 50vh; margin: 0 auto;" src="images/switching-short.mov"></video>
+					<a href="http://rxfiddle.net/#type=editor&code=Y29uc3Qgc291cmNlMSA9IFJ4Lk9ic2VydmFibGUKICAub2YoMSwgMiwgMywgNCkKCmNvbnN0IHNvdXJjZTIgPSBSeC5PYnNlcnZhYmxlCiAgLmNyZWF0ZShvID0+IHsKCW8ubmV4dCgiYSIpCglvLm5leHQoImIiKQoJby5uZXh0KCJjIikKCW8uZXJyb3IobmV3IEVycm9yKCkpCiAgfSkKClJ4Lk9ic2VydmFibGUub2Yoc291cmNlMSwgc291cmNlMikKICAubWVyZ2VBbGwoKQogIC5za2lwKDIpCiAgLnN1YnNjcmliZSgKICAgIGNvbnNvbGUubG9nLCAKICAgIGNvbnNvbGUud2FybgogICk=">switching sources</a>
+					<label for="dmd" class="fragment" data-play></label>
 				</section>
 
 				<section>
@@ -468,8 +507,58 @@ let original = Rx.Observable.of
 
 				<section>
 					<h2>Experiment</h2>
+					<p>Online Experiment UI: RxFiddle</p>
+					<img class="fragment fade-in" class="stretch" src="images/tasks/t3.time.png" />
+				</section>
+
+				<section>
+					<h2>Experiment</h2>
+					<p>Online Experiment UI: Console</p>
+					<img class="stretch" src="images/tasks/t3.con.png" />
+				</section>
+
+				<section>
+					<h2>Experiment</h2>
 					<p>Time per task</p>
 					<img class="fragment fade-in" class="stretch" src="images/timePerTask.png" />
+				</section>
+
+				<section>
+					<h2>Conclusions</h2>
+					<ul>
+						<li class="fragment">RxFiddle debugging can outperform Console debugging</li>
+						<li class="fragment">Equal on shorter debug tasks</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Future work</h2>
+					<ul>
+						<li>Data Flow Graph scalability</li>
+						<li><i>Smart Breakpoints</i></li>
+						<li>show <i>provenance</i> and <i>lineage tracking</i></li>
+						<li>alternative stream visualizations (plots, FFT)</li>
+					</ul>
+				</section>
+
+				<section>
+					<ul>
+						<li>RxFiddle.net visited by 784 people from 57 countries</li>
+						<li>Used by 53 developers - excluding experiment</li>
+						<li>42846 recorded interactions</li>
+						<li>... and counting</li>
+					</ul>
+				</section>
+
+				<section>
+					<p>"By using RxFiddle<br>when learning and understanding<br>
+					what RxJS does in our project,
+					<br>I have a feeling of <i>improved control</i> over our Observables, Subscriptions and 
+					<br>the reactive parts of our app".</p>
+					<aside class="notes">
+						One developer descibed his experience like this.
+						Making this possible is amazing.
+					</aside>
 				</section>
 
 				<section>
@@ -478,27 +567,22 @@ let original = Rx.Observable.of
 					<img style="width:50%" class="fragment fade-in" class="stretch" src="images/tweet.2.png" />
 					</div>
 					<img style="width:50%" class="fragment fade-in" class="stretch" src="images/tweet.4.png" />
-				</section>
-
-				<section>
-					<p>"By using RxFiddle<br>when learning and understanding<br>
-					what RxJS does in our project,
-					<br>I have a feeling of <i>improved control</i> over our Observables, Subscriptions and 
-					<br>the reactive parts of our app".</p>
-				</section>
-			
-				<section>
-					<h2>Future work</h2>
-					<ul>
-						<li>Data Flow Graph scalability</li>
-						<li>show <i>provenance</i> and <i>lineage tracking</i></li>
-						<li>alternative stream visualizations (plots, FFT)</li>
-						<li><i>Smart Breakpoints</i></li>
-					</ul>
+					<aside class="notes">Reactions: developers love RxFiddle</aside>
+					<aside class="notes">
+						The response on Twitter was great too. Even Matt Podwysocki liked RxFiddle. 
+					</aside>
 				</section>
 
 				<section data-background-color="black">
 						<section><!-- Intentionally left blank --></section>
+						<section class="stack">
+							<img style="position: absolute; right: 12%; top: 0; width: 20%" src="images/npm.png" />
+							<img src="images/npm-package.png" />
+							<div class="flex multicol">
+								<img style="width:70%" src="images/npm.terminal.png" />
+								<img style="width:40%"  src="images/npm.rxfiddle.png" />
+							</div>
+						</section>
 						<section class="stack">
 							<h2>Related Work (1)</h2>
 							<iframe class="stretch" src="http://rxmarbles.com"></iframe>
@@ -537,6 +621,34 @@ let original = Rx.Observable.of
 									<div><a  target="_blank" href="http://rxfiddle.net/#lib=rxjs4&type=editor&code=Ly8gVGVzdCBpbnB1dHMKLy8gaW5wdXQkIDogUnguT2JzZXJ2YWJsZTxzdHJpbmc+CnZhciBpbnB1dCQgPSBzdXJ2ZXkuaW1kYi5qb2huc0lucHV0JAogIC5kbyh4ID0+IGNvbnNvbGUubG9nKCJpbnB1dDogIit4KSkKLy8gZmluZE1vdmllc0FzeW5jIDogKHF1ZXJ5OiBzdHJpbmcpID0+IFJ4Lk9ic2VydmFibGU8c3RyaW5nW10+CnZhciBmaW5kTW92aWVzQXN5bmMgPSBzdXJ2ZXkuaW1kYi5maW5kTW92aWVzQXN5bmMKCi8vIFByb2dyYW0KCmlucHV0JAogIC5kZWJvdW5jZSg1MCwgc3VydmV5LnNjaGVkdWxlcikKICAuZmxhdE1hcChxID0+IHsgcmV0dXJuIGZpbmRNb3ZpZXNBc3luYyhxKSB9KQogIC5zdWJzY3JpYmUobGlzdCA9PiBzdXJ2ZXkuaW1kYi5yZW5kZXIobGlzdCkpCgovLyBBZHZhbmNlIHRpbWUgdmVyeSBmYXIgaW50byB0aGUgZnV0dXJlCnN1cnZleS5zY2hlZHVsZXIuYWR2YW5jZVRvKDFlNik">Open</a></div>
 								</div>
 							</div>
+
+						</section>
+						<section class="stack">
+							<a href="http://rxfiddle.net/#lib=rxjs4&type=editor&code=bGV0IGlubmVyID0gUnguT2JzZXJ2YWJsZS5vZigiYSIpCiAgLnN0YXJ0V2l0aCgiYiIpCiAgLnNraXAoMSkKCmxldCBmaXJzdCA9IFJ4Lk9ic2VydmFibGUKCS5vZigxLDIsMykKCmxldCBzID0gZmlyc3QKICAuZmxhdE1hcChfID0+IGlubmVyKQogIC5maWx0ZXIoKF8sIGkpID0+IGkgJSAyID09IDEpCiAgLmNvbWJpbmVMYXRlc3QoaW5uZXIpCiAgLmZsYXRNYXAoXyA9PiBpbm5lcikKICAuZmlsdGVyKChfLCBpKSA9PiBpICUgMiA9PSAxKQogIC5mbGF0TWFwKF8gPT4gaW5uZXIpCgpsZXQgYSA9IHMubWFwKF8gPT4gXykKCmEuc3Vic2NyaWJlKCkKaW5uZXIuc3Vic2NyaWJlKCkKaW5uZXIuc3Vic2NyaWJlKCkKaW5uZXIuc3Vic2NyaWJlKCkKCmEuc3Vic2NyaWJlKCkKaW5uZXIuc3Vic2NyaWJlKCkKaW5uZXIuc3Vic2NyaWJlKCkKaW5uZXIuc3Vic2NyaWJlKCk=">Large graph</a>
+						</section>
+						<section class="stack">
+							<pre><code data-trim data-noescape>
+inputStream
+  <mark>.do(x => printf("%d", x))</mark>
+  .map(x => 10 * x)
+  .filter(_ > 100)
+  <mark>.do(x => printf("filter: %d", x))</mark>
+  .scan(_ + _)
+  <mark>.do(x => printf("scan: %d", x))</mark>
+  .subscribe(render)
+	</code></pre>
+<pre><code data-trim data-noescape>
+// Output
+5
+8
+12
+filter: 120
+scan: 120
+15
+filter: 150
+scan: 270
+</code></pre>
+							<a href="http://rxfiddle.net/#lib=rxjs5&type=editor&code=UnguT2JzZXJ2YWJsZS5vZig1LCA4LCAxMiwgMTUpCiAgLm1hcCh4ID0+IDEwICogeCkKICAuZmlsdGVyKHggPT4geCA+IDEwMCkKICAuc2NhbigoYSxiKSA9PiBhK2IpCiAgLnN1YnNjcmliZSgp">See in RxFiddle</a>
 						</section>
 						<section class="stack"></section>
 				</section>
@@ -579,10 +691,12 @@ let original = Rx.Observable.of
 			});
 		</script>
 		<script>
+			// Mario
 			let runMario = () => document.getElementById("op1").beginElement()
-			// Reveal.addEventListener("mario", runMario, false)
 			Reveal.addEventListener("fragmentshown", (e) => e.fragment.getAttribute("for") === "mario" ? runMario() : void(0))
 			document.querySelector("#mario svg").addEventListener("click", runMario, false)
+			// Video
+			Reveal.addEventListener("fragmentshown", (e) => e.fragment.hasAttribute("data-play") ? document.querySelector("#"+e.fragment.getAttribute("for")).play() : void(0))
 		</script>
 
 	</body>
