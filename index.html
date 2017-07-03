@@ -535,9 +535,19 @@ addEvent(<mark>s1</mark>, "complete")</span>
 				<section>
 					<h2>Experiment</h2>
 					<p>Time per task</p>
-					<img class="fragment fade-in" class="stretch" src="images/timePerTask.png" />
+					<div class="multicol flex">
+					<table style="width: 40%; font-size:50%">
+						<tr><th></th><td colspan="3">avg time (s)</td><td colspan="3">median time (s)</td></tr>
+						<tr><th></th><td>Trad.</td><td colspan="2">RxFiddle</td><td>Trad.</td><td colspan="2">RxFiddle</td></tr>
+						<tr><th>T1</th><td>128</td><td>129</td><td><i class="down"></i> 99%</td><td>107</td><td>92</td><td><i class="up"></i> 116%</td></tr>
+						<tr><th>T2</th><td>119</td><td>130</td><td><i class="down"></i> 92%</td><td>90</td><td>96</td><td><i class="down"></i> 94%</td></tr>
+						<tr><th>T3</th><td>299</td><td>143</td><td><i class="up"></i> 209%</td><td>259</td><td>91</td><td><i class="up"></i> 285%</td></tr>
+						<tr><th>T4</th><td>307</td><td>255</td><td><i class="up"></i> 120%</td><td>321</td><td>236</td><td><i class="up"></i> 136%</td></tr>
+					</table>
+					<img style="width: 60%" src="images/timePerTask.png" />
+					</div>
 					<aside class="notes">
-						or the new RxFiddle debugger
+						
 					</aside>
 				</section>
 
@@ -569,10 +579,11 @@ addEvent(<mark>s1</mark>, "complete")</span>
 				</section>
 
 				<section>
-					<p>"By using RxFiddle<br>when learning and understanding<br>
+					<h2>Reactions</h2>
+					<blockquote>"By using RxFiddle<br>when learning and understanding<br>
 					what RxJS does in our project,
-					<br>I have a feeling of <i>improved control</i> over our Observables, Subscriptions and 
-					<br>the reactive parts of our app".</p>
+					<br>I have a feeling of <strong>improved control</strong> over our Observables, Subscriptions 
+					<br>and the reactive parts of our app".</blockquote>
 					<aside class="notes">
 						One developer descibed his experience like this.
 						Making this possible is amazing.
@@ -580,6 +591,7 @@ addEvent(<mark>s1</mark>, "complete")</span>
 				</section>
 
 				<section>
+					<h2>Reactions</h2>
 					<div class="flex multicol">
 					<img style="width:50%" class="fragment fade-in" class="stretch" src="images/tweet.3.png" />
 					<img style="width:50%" class="fragment fade-in" class="stretch" src="images/tweet.2.png" />
