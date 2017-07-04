@@ -154,6 +154,7 @@
 					<ul>
 						<li class="fragment fade-in">Reactive Programming <i>library</i></li>
 						<li class="fragment fade-in">API for streams</li>
+						<li class="fragment fade-in"><i>Observable</i> &amp; <i>Observer</i></li>
 						<li class="fragment fade-in">142 different operators</li>
 					</ul>
 					<aside class="notes">
@@ -230,24 +231,38 @@
 				</section>
 
 				<section>
-					<h1>Debugger tools</h1>
+					<h1>Debugging tools</h1>
 					<div class="flex multicol">
-						<div style="width: 30%">
-							<p>Features:</p>
-							<ul>
-								<li class="fragment fade-in">Pause execution</li>
+						<div class="fragment fade-in" style="width: 33%">
+							<p>IDE / gdb / lldb</p>
+							<img style="width: 200%" src="images/debugger.png" />
+							<ul style="font-size: 80%">
+								<li class="fragment fade-in">Pausing</li>
 								<li class="fragment fade-in">Stepping</li>
 								<li class="fragment fade-in">Breakpoints</li>
-								<li class="fragment fade-in">Variables &amp; watches</li>
+								<li class="fragment fade-in">Variable watches</li>
 							</ul>
 						</div>
-						<div style="width: 60%">
-							<img src="images/debugger.png" style="width: 200%" />
+						<div class="fragment fade-in" style="width: 33%">
+							<p>stack traces</p>
+							<img src="images/stacktrace.png" />
+							<a class="fragment" href="https://medium.com/netflix-techblog/saving-13-million-computational-minutes-per-day-with-flame-graphs-d95633b6d01f">
+								<img src="images/flame.png" />
+							</a>
+						</div>
+						<div class="fragment fade-in" style="width: 33%">
+							<p>printf-debugging</p>
+							<pre><code>var x = 10;
+printf("x is %d", x)
+// output: x is 10</code></pre>
 						</div>
 					</div>
 					<aside class="notes">
-						We use special tools called debuggers to find these mistakes.
+						We use special debugging tools to find these mistakes.
 						When writing new software we often use the same debug tools to test if the program runs correctly.
+						Examples are the IDE; DISCUSS;
+						Stack Traces; DISCUSS;
+						Printf; DISCUSS;
 					</aside>
 				</section>
 
@@ -256,10 +271,12 @@
 					<ul>
 						<li class="fragment fade-in">Stepping "painful"</li>
 						<li class="fragment fade-in">Breakpoints: no overview</li>
+						<li class="fragment fade-in">Stack traces: noise</li>
 						<li class="fragment fade-in">Prefer <code>printf</code>-debugging</li>
 					</ul>
 					<aside class="notes">
-						Professional developers, from 2 companies
+						To understand how debugging is different when using RP; 
+						<br>interviews professional developers, from 2 companies
 					</aside>
 				</section>
 
@@ -269,9 +286,9 @@
 inputStream
   <mark>.do(x => printf("%d", x))</mark>
   .map(x => 10 * x)
-  .filter(_ > 100)
+  .filter(x => x > 100)
   <mark>.do(x => printf("filter: %d", x))</mark>
-  .scan(_ + _)
+  .scan((x, y) => x + y)
   <mark>.do(x => printf("scan: %d", x))</mark>
   .subscribe(render)
 	</code></pre>
@@ -414,29 +431,27 @@ let original = Rx.Observable.of
 				
 				<section>
 					<div class="multicol flex">
-						<div>
-							<img style="max-height:20vh" src="images/debugger-graph-in.png" /><br />
-							<img style="max-height:20vh" class="fragment" data-fragment-index="7" src="images/debugger-graph.png" />
-						</div>
-					<pre style="font-size:37%;width:50%"><code data-trim data-noescape>
-<span class="fragment" data-fragment-index="1">addObervable(id: <mark>o1</mark>, sources: [])
+						<img style="max-height:15vh" src="images/debugger-graph-in.png" /><br />
+						<img style="max-height:20vh" class="fragment" data-fragment-index="1" src="images/debugger-graph.png" />
+					</div>
+					<pre style="font-size:60%;width:100%"><code data-trim data-noescape>
+<span class="fragment" data-fragment-index="2">addObervable(id: <mark>o1</mark>, sources: [])
 addObervable(id: <mark>o2</mark>, sources: [<mark>o1</mark>])
 addObervable(id: <mark>o3</mark>, sources: [<mark>o2</mark>])</span>
-<span class="fragment" data-fragment-index="2"><hr>addObserver(id: <mark>s1</mark>, destination: [])
+<span class="fragment" data-fragment-index="3"><hr>addObserver(id: <mark>s1</mark>, destination: [])
 addObserver(id: <mark>s2</mark>, destination: [<mark>s1</mark>])
 addObserver(id: <mark>s3</mark>, destination: [<mark>s2</mark>])</span>
-<span class="fragment" data-fragment-index="3"><hr>addEvent(<mark>s3</mark>, "next", 1)
+<span class="fragment" data-fragment-index="4"><hr>addEvent(<mark>s3</mark>, "next", 1)
 addEvent(<mark>s2</mark>, "next", 2)
 addEvent(<mark>s1</mark>, "next", 2)</span>
-<span class="fragment" data-fragment-index="4"><hr>addEvent(<mark>s3</mark>, "next", 2)
+<span class="fragment" data-fragment-index="5"><hr>addEvent(<mark>s3</mark>, "next", 2)
 addEvent(<mark>s2</mark>, "next", 4)</span>
-<span class="fragment" data-fragment-index="5"><hr>addEvent(<mark>s3</mark>, "next", 3)
+<span class="fragment" data-fragment-index="6"><hr>addEvent(<mark>s3</mark>, "next", 3)
 addEvent(<mark>s2</mark>, "next", 6)</span>
-<span class="fragment" data-fragment-index="6"><hr>addEvent(<mark>s3</mark>, "complete")
+<span class="fragment" data-fragment-index="7"><hr>addEvent(<mark>s3</mark>, "complete")
 addEvent(<mark>s2</mark>, "complete")
 addEvent(<mark>s1</mark>, "complete")</span>
 </code></pre>
-					</div>
 				</section>
 
 				<section>
@@ -496,6 +511,14 @@ addEvent(<mark>s1</mark>, "complete")</span>
 				</section>
 
 				<section>
+					<img src="images/experiment.gif" style="width: 200px" />
+					<h1>Experiment</h1>
+					<aside class="notes">
+						Next, we want to compare traditional debugging to RxFiddle.
+					</aside>
+				</section>
+
+				<section>
 					<h2>Experiment</h2>
 					<ul>
 						<li>survey, 1 warm-up task, 4 debug tasks</li>
@@ -504,29 +527,29 @@ addEvent(<mark>s1</mark>, "complete")</span>
 					</ul>
 					<img class="fragment fade-in" class="stretch" src="images/tweet.1.png" />
 					<aside class="notes">
-						Want to compare traditional debugging to RxFiddle.
 						Experiment. Two groups of developers, either use traditional debugger; or RxFiddle.
 						Meaure time;
 						To gather people using Rx in practice we announced the experiment on Twitter.
 					</aside>
 				</section>
 
-				<section>
+				<section data-transition="fade-out">
 					<h2>Experiment</h2>
 					<p>Online Experiment UI: Console</p>
-					<img class="stretch" src="images/tasks/t3.con.png" />
+					<img src="images/tasks/t3.con.png" />
 					<aside class="notes">
 						This is the experiment UI. 
 						On top question;
 						left is the code; right is debugger;
 						Participants either got the Chrome debugger;
+
 					</aside>
 				</section>
 
-				<section>
+				<section data-transition="fade-in">
 					<h2>Experiment</h2>
 					<p>Online Experiment UI: RxFiddle</p>
-					<img class="fragment fade-in" class="stretch" src="images/tasks/t3.time.png" />
+					<img src="images/tasks/t3.time.png" />
 					<aside class="notes">
 						or the new RxFiddle debugger
 					</aside>
@@ -554,8 +577,10 @@ addEvent(<mark>s1</mark>, "complete")</span>
 				<section>
 					<h2>Conclusions</h2>
 					<ul>
-						<li class="fragment">RxFiddle debugging can outperform Console debugging</li>
-						<li class="fragment">Equal on shorter debug tasks</li>
+						<li class="fragment">Current practice: <code>printf</code>-debugging</li>
+						<li class="fragment">Designed debugger for Reactive Programming</li>
+						<li class="fragment">Implemented RxFiddle &amp; webservice</li>
+						<li class="fragment">Experiment: RxFiddle debugging can outperform Console debugging</li>
 					</ul>
 				</section>
 
@@ -570,12 +595,18 @@ addEvent(<mark>s1</mark>, "complete")</span>
 				</section>
 
 				<section>
+					<h2>Used in Practice</h2>
 					<ul>
-						<li>RxFiddle.net visited by 784 people from 57 countries</li>
+						<li>RxFiddle.net visited by +/- 800 people from 50+ countries</li>
 						<li>Used by 53 developers - excluding experiment</li>
-						<li>42846 recorded interactions</li>
+						<li>42.000+ recorded interactions</li>
 						<li>... and counting</li>
 					</ul>
+					<aside class="notes">
+						Now a few words about adoption; a topic rarely found in research and theses.
+						RxFiddle is publically available online and quick to use.
+						During the last 2 months...
+					</aside>
 				</section>
 
 				<section>
@@ -585,7 +616,9 @@ addEvent(<mark>s1</mark>, "complete")</span>
 					<br>I have a feeling of <strong>improved control</strong> over our Observables, Subscriptions 
 					<br>and the reactive parts of our app".</blockquote>
 					<aside class="notes">
-						One developer descibed his experience like this.
+						To understand how RxFiddle affects developers in practice, let's review this comment. 
+						One developer is descibing his experience.
+						QUOTE.
 						Making this possible is amazing.
 					</aside>
 				</section>
@@ -599,7 +632,7 @@ addEvent(<mark>s1</mark>, "complete")</span>
 					<img style="width:50%" class="fragment fade-in" class="stretch" src="images/tweet.4.png" />
 					<aside class="notes">Reactions: developers love RxFiddle</aside>
 					<aside class="notes">
-						The response on Twitter was great too. Even Matt Podwysocki liked RxFiddle. 
+						The response on Twitter was great too. Even Matt Podwysocki, creator of RxJS, tweets about RxFiddle. 
 					</aside>
 				</section>
 
