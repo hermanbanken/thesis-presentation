@@ -711,7 +711,16 @@ addEvent(<mark>s1</mark>, "complete")</span>
 						</section>
 						<section class="stack">
 							<h2>Related Work (1)</h2>
-							<iframe class="stretch" src="http://rxmarbles.com"></iframe>
+							<iframe id="rxm1" class="stretch"></iframe>
+							<a id="rxm2" target="_blank" href="http://rxmarbles.com"><img src="images/rxmarbles_com.png" title="RxMarbles.com" /></a>
+							<script>
+								if(window.location.protocol === "https:") {
+									document.querySelector("#rxm1").remove()
+								} else {
+									document.querySelector("#rxm2").remove()
+									document.querySelector("#rxm1").setAttribute("src", "http://rxmarbles.com")
+								}
+							</script>
 						</section>
 						<section class="stack">
 							<h2>Related Work (2)</h2>
