@@ -1,0 +1,51 @@
+<svg width="479" height="210" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <line id="svg_1" y2="272.758" x2="462.102" y1="272.758" x1="17.805" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="none"/>
+  <line id="svg_2" y2="419.738" x2="462.102" y1="419.738" x1="17.805" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="none"/>
+  <rect id="svg_3" height="69.799" width="456.377" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="none" y="311.349" x="12.436"/>
+  <circle id="svg_4" r="16.778" cy="272.758" cx="98.521" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="#FECB48"/>
+  <circle id="svg_5" r="16.778" cy="419.738" cx="98.521" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="#FECB48"/>
+  <circle id="svg_6" r="16.779" cy="272.757" cx="176.877" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="#ED694C"/>
+  <circle id="svg_7" r="16.779" cy="419.737" cx="176.877" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="#ED694C"/>
+  <circle id="svg_8" r="16.778" cy="272.757" cx="317.058" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="#3EA1CC"/>
+  <circle id="svg_9" r="16.778" cy="419.737" cx="317.058" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="#3EA1CC"/>
+  <line id="svg_10" y2="283.66" x2="421.832" y1="261.854" x1="421.832" stroke-miterlimit="10" stroke-width="3" stroke="#000000" fill="none"/>
+  <line id="svg_11" y2="430.639" x2="421.832" y1="408.835" x1="421.832" stroke-miterlimit="10" stroke-width="3" stroke="#000000" fill="none"/>
+  <polygon id="svg_12" points="450.684,266.111 465.518,272.757 450.684,279.403 "/>
+  <polygon id="svg_13" points="450.684,413.091 465.518,419.737 450.684,426.383 "/>
+  <text id="svg_14" font-size="24" font-family="'Source Sans Pro', sans-serif" transform="matrix(1,0,0,1,86.3135,428.3828) ">10</text>
+  <text id="svg_15" font-size="24" font-family="'Source Sans Pro', sans-serif" transform="matrix(1,0,0,1,164.6699,428.3828) ">20</text>
+  <text id="svg_16" font-size="24" font-family="'Source Sans Pro', sans-serif" transform="matrix(1,0,0,1,304.8516,428.3828) ">30</text>
+  <text id="svg_17" font-size="24" font-family="'Source Sans Pro', sans-serif" transform="matrix(1,0,0,1,310.9551,280.6597) ">3</text>
+  <text id="svg_18" font-size="24" font-family="'Source Sans Pro', sans-serif" transform="matrix(1,0,0,1,170.7734,280.6597) ">2</text>
+  <text id="svg_19" font-size="24" font-family="'Source Sans Pro', sans-serif" transform="matrix(1,0,0,1,92.416,280.6597) ">1</text>
+  <text id="svg_20" font-size="26.7514" font-family="'Source Code Pro', monospace" transform="matrix(1,0,0,1,111.5488,356.1304) ">map(x =&gt; 10 * x)</text>
+  <line id="svg_21" y2="32.758" x2="462.102" y1="32.758" x1="17.805" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="none"/>
+  <line id="svg_22" y2="179.738" x2="462.102" y1="179.738" x1="17.805" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="none"/>
+  <rect id="svg_23" height="69.799" width="456.378" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="none" y="71.349" x="12.436"/>
+  <circle id="svg_24" r="16.778" cy="32.758" cx="98.521" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="#FECB48"/>
+  <circle id="svg_25" r="16.778" cy="179.738" cx="98.521" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="#FECB48"/>
+  <circle id="svg_26" r="16.779" cy="32.757" cx="176.877" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="#ED694C"/>
+  <circle id="svg_27" r="16.779" cy="179.737" cx="176.877" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="#ED694C"/>
+  <circle id="svg_28" r="16.778" cy="32.757" cx="317.059" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="#89BE3C"/>
+  <line id="svg_29" y2="43.66" x2="421.833" y1="21.854" x1="421.833" stroke-miterlimit="10" stroke-width="3" stroke="#000000" fill="none"/>
+  <line id="svg_30" y2="187.446" x2="309.35" y1="172.028" x1="324.768" stroke-miterlimit="10" stroke-width="3" stroke="#000000" fill="none"/>
+  <polygon id="svg_31" points="450.685,26.111 465.519,32.757 450.685,39.403 "/>
+  <polygon id="svg_32" points="450.685,173.091 465.519,179.737 450.685,186.383 "/>
+  <text x="-2" y="0" id="svg_33" font-size="24" font-family="'Source Sans Pro', sans-serif" transform="matrix(1,0,0,1,86.3135,188.3828) ">10</text>
+  <text id="svg_34" font-size="24" font-family="'Source Sans Pro', sans-serif" transform="matrix(1,0,0,1,164.6699,188.3828) ">20</text>
+  <text x="1" y="0" id="svg_35" font-size="21" font-family="'Source Sans Pro', sans-serif" transform="matrix(1,0,0,1,302.8418,40.6597) ">“a”</text>
+  <circle id="svg_36" r="16.778" cy="32.758" cx="375.559" stroke-miterlimit="10" stroke-width="2" stroke="#000000" fill="#3EA1CC"/>
+  <text x="0" y="0" id="svg_37" font-size="24" font-family="'Source Sans Pro', sans-serif" transform="matrix(1,0,0,1,369.4551,40.6606) ">8</text>
+  <text id="svg_38" font-size="24" font-family="'Source Sans Pro', sans-serif" transform="matrix(1,0,0,1,170.7734,40.6597) ">2</text>
+  <text id="svg_39" font-size="24" font-family="'Source Sans Pro', sans-serif" transform="matrix(1,0,0,1,92.416,40.6597) ">1</text>
+  <text id="svg_40" font-size="26.7514" font-family="'Source Code Pro', monospace" transform="matrix(1,0,0,1,111.5488,116.1304) ">map(x =&gt; 10 * x)</text>
+  <line id="svg_41" y2="187.445" x2="324.768" y1="172.027" x1="309.35" stroke-miterlimit="10" stroke-width="3" stroke="#000000" fill="none"/>
+ </g>
+</svg>
